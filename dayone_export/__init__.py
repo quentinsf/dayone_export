@@ -14,7 +14,6 @@ import jinja2
 import plistlib
 import os
 import pytz
-import itertools
 from collections import defaultdict
 
 SUBKEYS = {'Location': ['Locality', 'Country', 'Place Name',
@@ -292,9 +291,9 @@ def dayone_export(dayone_folder, template=None, reverse=False, tags=None,
     :param nl2br:  Specifies that new lines should be translated in to <br>s
     :type nl2br: bool
     :type filename_template: string
-    :param filename_template: An eventual filename, which can include strftime formatting codes. 
+    :param filename_template: An eventual filename, which can include strftime formatting codes.
                 Each time the result of formatting an entry's timestamp with this changes,
-                a new result will be returned.              
+                a new result will be returned.
     :returns: Iterator yielding (filename, filled_in_template) as strings on each iteration.
     """
 

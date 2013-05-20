@@ -127,10 +127,12 @@ class TestJournalParser(unittest.TestCase):
         gen = doe.dayone_export(fake_journal)
         self.assertEqual(len(list(gen)), 1)
         # If doing careful date comparisons, beware of timezones
-        gen = doe.dayone_export(fake_journal, filename_template="j_%Y.md")
-        self.assertEqual(len(list(gen)), 2)
-        gen = doe.dayone_export(fake_journal, filename_template="j_%Y%_%m_%d.md")
-        self.assertEqual(len(list(gen)), 3)
+        gen = doe.dayone_export(fake_journal, filename_template="%Y")
+        fnames = sorted(fn for fn, _ in gen)
+        self.assertEqual(fnames, ["2011", "2012"])
+        gen = doe.dayone_export(fake_journal, filename_template="%Y%m%d")
+        fnames = sorted(fn for fn, _ in gen)
+        self.assertEqual(fnames, ["20111231", "20120101", "20120902"])
 
 
 
@@ -221,7 +223,7 @@ class TestCLI(unittest.TestCase):
         expected = 'Not a valid Day One package'
         self.assertTrue(actual.startswith(expected), actual)
 
-    @patch('dayone_export.cli.dayone_export', side_effect=jinja2.TemplateNotFound('msg'))
+    @patch('dayone_export.jinja2.Template.render', side_effect=jinja2.TemplateNotFound('msg'))
     def test_template_not_found(self, mock_doe):
         actual = dayone_export.cli.run([fake_journal])
         expected = "Template not found"
@@ -312,7 +314,6 @@ class TestLatex(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     def test_latex_sanity(self):
-        suffix, actual = next(doe.dayone_export(fake_journal, format='tex'))
+        _, actual = next(doe.dayone_export(fake_journal, format='tex'))
         expected = r'\documentclass'
         self.assertEqual(actual[:14], expected)
-

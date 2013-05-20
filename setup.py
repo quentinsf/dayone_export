@@ -26,14 +26,14 @@ if sys.version_info >= (3,):
 
 setup(
     name = "dayone_export",
-    version = '0.5.0',
+    version = '0.6.2',
     description = "Export Day One journal using Jinja2 templates",
     author = "Nathan Grigg",
-    author_email = "nathan@nathanamy.org",
+    author_email = "nathan@nathangrigg.net",
     packages = ["dayone_export"],
     package_data={'dayone_export': ['templates/*']},
     include_package_data = True,
-    url = 'https://github.com/nathan11g/dayone_export/',
+    url = 'https://github.com/nathangrigg/dayone_export/',
     entry_points = {
         'console_scripts': ['dayone_export = dayone_export.cli:run']
     },
